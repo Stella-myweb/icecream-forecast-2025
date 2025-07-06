@@ -2077,18 +2077,25 @@ print(f"R²: {r2_svm:.2f}")</code></pre>
         <div class="content">
             <h1 class="title">KNN (K-Nearest Neighbors) 모델</h1>
             
-           <p class="description"> KNN은 K개의 가장 가까운 이웃을 사용하여 새로운 데이터 포인트를 예측하는 간단하면서도 효과적인 회귀 모델입니다. 독립적으로 실행 가능한 완전한 코드로 아이스크림 판매 예측에 적용해보겠습니다. </p> <p class="description"> <a href="https://drive.google.com/file/d/1LqMXtZAVzwJzsnFD5UNjQgZJSSl-q_c0/view?usp=sharing" target="_blank" style="color: #3498db; text-decoration: underline; cursor: pointer;"> 📊 데이터: 2019~2023년 월별 아이스크림 판매량 </a> </p>
-            
+       <p class="description">
+        KNN은 K개의 가장 가까운 이웃을 사용하여 새로운 데이터 포인트를 예측하는 간단하면서도 효과적인 회귀 모델입니다. 독립적으로 실행 가능한 완전한 코드로 아이스크림 판매 예측에 적용해보겠습니다.
+        </p>
             <div class="code-container">
                 <div class="code-header">
                     <div class="code-title">
                         <i class="fas fa-file-code code-icon"></i>
                         knn_model.py
                     </div>
-                    <button class="code-copy-btn" onclick="copyCode()">
-                        <i class="fas fa-copy mr-1"></i>
-                        코드 복사
-                    </button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="code-copy-btn" onclick="copyCode()">
+                            <i class="fas fa-copy mr-1"></i>
+                            복사
+                        </button>
+                        <button class="code-copy-btn" onclick="window.open('https://drive.google.com/file/d/1LqMXtZAVzwJzsnFD5UNjQgZJSSl-q_c0/view?usp=sharing', '_blank')" style="background-color: #27ae60;">
+                            <i class="fas fa-download mr-1"></i>
+                            CSV 다운로드
+                        </button>
+                    </div>
                 </div>
                 <pre class="code-block"><code class="language-python"># Full imports for standalone execution
 import pandas as pd
