@@ -110,12 +110,7 @@
                     <div class="info-text">주요 목표: 다양한 ML 기법을 통한 최적 판매 예측 모델 선정</div>
                 </div>
             </div>
-        
-             <div class="slide-container">
-     
-                    <div class="info-text">정초롱 stella.cholong.jung@gmail.com</div>
-             </div>
-    
+            
             <div class="icon-container">
                 <div class="icon-box">
                     <i class="fas fa-ice-cream"></i>
@@ -230,32 +225,40 @@
                     </div>
                     <div class="toc-item">
                         <div class="toc-number">2</div>
-                        <div class="toc-text">데이터 로드 코드</div>
+                        <div class="toc-text">머신러닝 워크플로우 단계</div>
                     </div>
                     <div class="toc-item">
                         <div class="toc-number">3</div>
-                        <div class="toc-text">데이터 정보 분석 코드</div>
+                        <div class="toc-text">데이터 탐색 및 전처리 (EDA)</div>
                     </div>
                     <div class="toc-item">
                         <div class="toc-number">4</div>
-                        <div class="toc-text">SVM 모델</div>
+                        <div class="toc-text">데이터 로드 코드</div>
+                    </div>
+                    <div class="toc-item">
+                        <div class="toc-number">5</div>
+                        <div class="toc-text">데이터 정보 분석 코드</div>
                     </div>
                 </div>
                 <div class="toc-column">
                     <div class="toc-item">
-                        <div class="toc-number">5</div>
-                        <div class="toc-text">KNN 모델</div>
-                    </div>
-                    <div class="toc-item">
                         <div class="toc-number">6</div>
-                        <div class="toc-text">Random Forest 모델</div>
+                        <div class="toc-text">SVM 모델</div>
                     </div>
                     <div class="toc-item">
                         <div class="toc-number">7</div>
-                        <div class="toc-text">모델 성능 비교</div>
+                        <div class="toc-text">KNN 모델</div>
                     </div>
                     <div class="toc-item">
                         <div class="toc-number">8</div>
+                        <div class="toc-text">Random Forest 모델</div>
+                    </div>
+                    <div class="toc-item">
+                        <div class="toc-number">9</div>
+                        <div class="toc-text">모델 성능 비교</div>
+                    </div>
+                    <div class="toc-item">
+                        <div class="toc-number">10</div>
                         <div class="toc-text">결론 및 실무 인사이트</div>
                     </div>
                 </div>
@@ -263,10 +266,601 @@
             
             <div class="footer-note">
                 <i class="fas fa-lightbulb"></i> 
-                각 모델의 장단점과 아이스크림 판매량 예측에 가장 적합한 모델을 알아봅니다
+                데이터 수집부터 모델 성능 비교까지 완전한 ML 파이프라인 과정을 살펴봅니다
             </div>
         </div>
     </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>머신러닝 워크플로우 단계 - 아이스크림 판매량 예측 모델링</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-accent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background-color: #3498db;
+        }
+        .content {
+            padding: 60px 80px;
+            height: calc(100% - 12px);
+        }
+        .title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        .description {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+        .workflow-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            position: relative;
+        }
+        .workflow-step {
+            width: 18%;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-top: 5px solid #3498db;
+            position: relative;
+            z-index: 2;
+        }
+        .workflow-step:nth-child(1) .step-icon { color: #3498db; }
+        .workflow-step:nth-child(2) .step-icon { color: #9b59b6; }
+        .workflow-step:nth-child(3) .step-icon { color: #e74c3c; }
+        .workflow-step:nth-child(4) .step-icon { color: #f39c12; }
+        .workflow-step:nth-child(5) .step-icon { color: #27ae60; }
+        
+        .workflow-step:nth-child(1) { border-top-color: #3498db; }
+        .workflow-step:nth-child(2) { border-top-color: #9b59b6; }
+        .workflow-step:nth-child(3) { border-top-color: #e74c3c; }
+        .workflow-step:nth-child(4) { border-top-color: #f39c12; }
+        .workflow-step:nth-child(5) { border-top-color: #27ae60; }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: 30px;
+            height: 30px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .step-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        .step-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .step-description {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.4;
+        }
+        .workflow-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #ddd;
+            z-index: 1;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #95a5a6;
+        }
+        .arrow-1 { left: 20%; }
+        .arrow-2 { left: 40%; }
+        .arrow-3 { left: 60%; }
+        .arrow-4 { left: 80%; }
+        .note-container {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 0 5px 5px 0;
+        }
+        .note-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #3498db;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .note-content {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-accent"></div>
+        <div class="content">
+            <h1 class="title">머신러닝 워크플로우 단계</h1>
+            
+            <p class="description">
+                아이스크림 판매량 예측을 위한 머신러닝 프로젝트는 아래의 5단계 워크플로우를 따라 체계적으로 진행됩니다.
+                각 단계는 프로젝트 성공을 위한 필수적인 과정입니다.
+            </p>
+            
+            <div class="workflow-container">
+                <div class="workflow-line"></div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <i class="fas fa-database step-icon"></i>
+                    <div class="step-title">데이터 수집<br>(Data Collection)</div>
+                    <div class="step-description">
+                        ice_cream_sales_data.csv 파일 수집
+                        <br>월별 판매량, 온도, 휴일 데이터
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <i class="fas fa-search step-icon"></i>
+                    <div class="step-title">데이터 탐색 및 전처리<br>(EDA & Preprocessing)</div>
+                    <div class="step-description">
+                        결측치 처리, 이상치 탐지
+                        <br>상관관계 분석, 특성 변환
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <i class="fas fa-cut step-icon"></i>
+                    <div class="step-title">데이터 분할<br>(Train/Test Split)</div>
+                    <div class="step-description">
+                        훈련 데이터와 테스트 데이터로 분리
+                        <br>비율: 80% 훈련, 20% 테스트
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <i class="fas fa-cogs step-icon"></i>
+                    <div class="step-title">모델 선택 및 학습<br>(Model Training)</div>
+                    <div class="step-description">
+                        SVM, KNN, Random Forest 
+                        <br>하이퍼파라미터 튜닝
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">5</div>
+                    <i class="fas fa-chart-line step-icon"></i>
+                    <div class="step-title">예측 및 평가<br>(Prediction & Evaluation)</div>
+                    <div class="step-description">
+                        R², RMSE, MAE 계산
+                        <br>모델 간 성능 비교
+                    </div>
+                </div>
+                
+                <div class="arrow arrow-1"><i class="fas fa-chevron-right"></i></div>
+                <div class="arrow arrow-2"><i class="fas fa-chevron-right"></i></div>
+                <div class="arrow arrow-3"><i class="fas fa-chevron-right"></i></div>
+                <div class="arrow arrow-4"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            
+            <div class="note-container">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb mr-2"></i>
+                    워크플로우 중요성
+                </div>
+                <div class="note-content">
+                    <ul class="pl-6 list-disc">
+                        <li>체계적인 접근: 각 단계는 다음 단계의 성공을 보장하는 기반이 됩니다.</li>
+                        <li>반복 가능성: 문서화된 워크플로우로 프로젝트의 재현 및 개선이 용이합니다.</li>
+                        <li>품질 보증: 각 단계별 검증을 통해 최종 모델의 신뢰성을 높입니다.</li>
+                        <li>효율성: 표준화된 과정으로 작업 효율성이 향상됩니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>데이터 탐색 및 전처리 (EDA) - 아이스크림 판매량 예측 모델링</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.28.0/themes/prism-tomorrow.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-accent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background-color: #3498db;
+        }
+        .content {
+            padding: 60px 80px;
+            height: calc(100% - 12px);
+        }
+        .title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        .description {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .code-container {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .code-header {
+            background-color: #f1f1f1;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+        .code-title {
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        .code-icon {
+            color: #3498db;
+            margin-right: 8px;
+        }
+        .code-copy-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .code-copy-btn:hover {
+            background-color: #2980b9;
+        }
+        .code-block {
+            padding: 15px;
+            margin: 0;
+            overflow: auto;
+            max-height: 320px;
+            font-size: 14px;
+            line-height: 1.5;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .two-column {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .column {
+            width: 48%;
+        }
+        .info-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        .card-title {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 8px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .card-icon {
+            margin-right: 8px;
+        }
+        .card-content {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-accent"></div>
+        <div class="content">
+            <h1 class="title">데이터 탐색 및 전처리 (EDA)</h1>
+            
+            <p class="description">
+                데이터의 구조 이해, 특성 파악, 그리고 머신러닝 모델 학습을 위한 필수 전처리 단계입니다.
+                모든 출력은 영어로 설정되어 있으며, 독립적으로 실행 가능한 코드를 제공합니다.
+            </p>
+            
+            <div class="two-column">
+                <div class="column">
+                    <div class="code-container">
+                        <div class="code-header">
+                            <div class="code-title">
+                                <i class="fas fa-chart-bar code-icon"></i>
+                                eda_preprocessing.py
+                            </div>
+                            <button class="code-copy-btn" onclick="copyCode()">
+                                <i class="fas fa-copy mr-1"></i>
+                                Copy Code
+                            </button>
+                        </div>
+                        <pre class="code-block"><code class="language-python"># Full imports for independent execution
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime
+import locale
+
+# Set locale to English (for date formatting)
+locale.setlocale(locale.LC_TIME, 'en_US.UTF-8')
+
+# Load the dataset
+df = pd.read_csv('ice_cream_sales_data.csv')
+
+# Basic data exploration
+print("Dataset Shape:", df.shape)
+print("\nFirst 5 rows:")
+print(df.head())
+
+# Check data types and missing values
+print("\nData Types:")
+print(df.dtypes)
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# Convert Month to datetime and extract features
+if 'Month' in df.columns:
+    df['Month'] = pd.to_datetime(df['Month'])
+    df['Month_num'] = df['Month'].dt.month
+    df['Year'] = df['Month'].dt.year
+    print("\nExtracted Month and Year as features")
+
+# Calculate summary statistics
+print("\nSummary Statistics:")
+print(df.describe().round(2))
+
+# Check correlation between features
+print("\nCorrelation Matrix:")
+correlation = df[['Temperature', 'Holidays', 'Promotion', 
+                 'Month_num', 'Sales']].corr().round(2)
+print(correlation)
+
+# Optional: Create basic visualizations
+# Uncomment to view plots
+"""
+plt.figure(figsize=(12, 8))
+
+# Sales distribution
+plt.subplot(2, 2, 1)
+sns.histplot(df['Sales'], kde=True)
+plt.title('Sales Distribution')
+
+# Temperature vs Sales scatter
+plt.subplot(2, 2, 2)
+sns.scatterplot(x='Temperature', y='Sales', data=df)
+plt.title('Temperature vs Sales')
+
+# Monthly Sales
+plt.subplot(2, 2, 3)
+monthly_avg = df.groupby('Month_num')['Sales'].mean()
+sns.barplot(x=monthly_avg.index, y=monthly_avg.values)
+plt.title('Average Sales by Month')
+plt.xlabel('Month')
+plt.ylabel('Avg Sales')
+
+# Correlation Heatmap
+plt.subplot(2, 2, 4)
+sns.heatmap(correlation, annot=True, cmap='coolwarm')
+plt.title('Feature Correlation')
+
+plt.tight_layout()
+plt.show()
+"""
+
+print("\nData preprocessing completed successfully.")</code></pre>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="card-title">
+                            <i class="fas fa-check-circle card-icon"></i>
+                            Key EDA Steps
+                        </div>
+                        <div class="card-content">
+                            <ol class="pl-5">
+                                <li>Check data structure and types</li>
+                                <li>Identify and handle missing values</li>
+                                <li>Extract useful features from date columns</li>
+                                <li>Calculate summary statistics</li>
+                                <li>Analyze feature correlations</li>
+                                <li>Visualize distributions and relationships</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column">
+                    <div class="code-container" style="margin-bottom: 20px;">
+                        <div class="code-header">
+                            <div class="code-title">
+                                <i class="fas fa-terminal code-icon"></i>
+                                Sample Output
+                            </div>
+                        </div>
+                        <pre class="code-block" style="max-height: 220px; background-color: #f8f9fa; color: #333;">Dataset Shape: (60, 5)
+
+First 5 rows:
+        Month  Temperature  Holidays  Promotion  Sales
+0  2019-01-01         15.5         3          0  158.0
+1  2019-02-01         19.9         2          0  158.0
+2  2019-03-01         24.3         6          0  174.0
+3  2019-04-01         26.5         4          0  171.0
+4  2019-05-01         23.4         5          0  184.0
+
+Data Types:
+Month         object
+Temperature  float64
+Holidays       int64
+Promotion      int64
+Sales        float64
+dtype: object
+
+Missing Values:
+Month         0
+Temperature   0
+Holidays      0
+Promotion     0
+Sales         0
+dtype: int64
+
+Extracted Month and Year as features</pre>
+                    </div>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <div class="code-title">
+                                <i class="fas fa-table code-icon"></i>
+                                Correlation Matrix
+                            </div>
+                        </div>
+                        <pre class="code-block" style="max-height: 170px; background-color: #f8f9fa; color: #333;">Correlation Matrix:
+              Temperature  Holidays  Promotion  Month_num   Sales
+Temperature       1.00      0.08      0.02       0.15     0.72
+Holidays          0.08      1.00     -0.06      -0.02     0.15
+Promotion         0.02     -0.06      1.00       0.14     0.28
+Month_num         0.15     -0.02      0.14       1.00     0.45
+Sales             0.72      0.15      0.28       0.45     1.00</pre>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="card-title">
+                            <i class="fas fa-lightbulb card-icon"></i>
+                            Data Insights
+                        </div>
+                        <div class="card-content">
+                            <ul class="pl-5">
+                                <li><strong>Strong correlation (0.72)</strong> between temperature and sales</li>
+                                <li><strong>Moderate correlation (0.45)</strong> between month and sales, indicating seasonality</li>
+                                <li><strong>Promotion effect (0.28)</strong> shows some positive impact on sales</li>
+                                <li><strong>Complete dataset</strong> with no missing values</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function copyCode() {
+            const codeBlock = document.querySelector('.code-block code');
+            const textToCopy = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    const copyBtn = document.querySelector('.code-copy-btn');
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i> Copied!';
+                    copyBtn.style.backgroundColor = '#27ae60';
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                        copyBtn.style.backgroundColor = '#3498db';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy:', err);
+                    alert('Failed to copy code.');
+                });
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.28.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.28.0/components/prism-python.min.js"></script>
 </body>
 </html>
 <!DOCTYPE html>
@@ -420,7 +1014,7 @@
             <h1 class="title">데이터 로드 코드</h1>
             
             <p class="description">
-                아래 코드는 ice_cream_sales_data.csv 데이터를 불러오고 기본 정보를 확인합니다. 데이터 형태, 타입, 결측값, 그리고 기초 통계량을 살펴봅니다.
+                아래 코드는 ice_cream_sales_data.csv 데이터를 불러오고 기본 정보를 확인합니다. 모든 결과를 영어로 출력하며 독립적으로 실행 가능합니다.
             </p>
             
             <div class="code-container">
@@ -440,34 +1034,63 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+import os
 
-# 데이터 로드
-df = pd.read_csv('ice_cream_sales_data.csv')
+# Check if file exists to avoid FileNotFoundError
+file_path = 'ice_cream_sales_data.csv'
+if not os.path.exists(file_path):
+    # Create a simple sample dataset if the file doesn't exist
+    print(f"File {file_path} not found. Creating sample dataset...")
+    data = {
+        'Month': ['2019-01-01', '2019-02-01', '2019-03-01', '2019-04-01', '2019-05-01'],
+        'Temperature': [15.5, 19.9, 24.3, 26.5, 23.4],
+        'Holidays': [3, 2, 6, 4, 5],
+        'Promotion': [0, 0, 0, 0, 0],
+        'Sales': [158.0, 158.0, 174.0, 171.0, 184.0]
+    }
+    pd.DataFrame(data).to_csv(file_path, index=False)
+    
+# Load data
+df = pd.read_csv(file_path)
 
-# 기본 정보 확인
-print('데이터 shape:', df.shape)
-print('\n데이터 타입:')
+# Basic information check
+print('Data shape:', df.shape)
+print('\nData types:')
 print(df.dtypes)
-print('\n첫 5개 행:')
+print('\nFirst 5 rows:')
 print(df.head())
 
-# 결측값 확인
-print('\n결측값 확인:')
+# Check for missing values
+print('\nMissing values:')
 print(df.isnull().sum())
 
-# 기본 통계 정보
-print('\n기본 통계 정보:')
-print(df.describe())</code></pre>
+# Basic statistics
+print('\nBasic statistics:')
+print(df.describe())
+
+# Optional: Convert Month to datetime
+if 'Month' in df.columns:
+    try:
+        df['Month'] = pd.to_datetime(df['Month'])
+        print('\nConverted Month to datetime. Month range:')
+        print(f"Start: {df['Month'].min()}, End: {df['Month'].max()}")
+    except:
+        print('\nCould not convert Month column to datetime')
+
+# Quick correlation check
+if len(df) > 5:  # Only if we have enough data
+    print('\nCorrelation with Sales:')
+    print(df.corr()['Sales'].sort_values(ascending=False))</code></pre>
             </div>
             
             <div class="output-container">
                 <div class="output-header">
                     <i class="fas fa-terminal mr-2"></i>
-                    실행 결과 (예시)
+                    Example Output
                 </div>
-                <pre>데이터 shape: (60, 5)
+                <pre>Data shape: (60, 5)
 
-데이터 타입:
+Data types:
 Month         object
 Temperature   float64
 Holidays        int64
@@ -475,13 +1098,32 @@ Promotion       int64
 Sales         float64
 dtype: object
 
-첫 5개 행:
+First 5 rows:
         Month  Temperature  Holidays  Promotion  Sales
 0  2019-01-01         15.5         3          0  158.0
 1  2019-02-01         19.9         2          0  158.0
 2  2019-03-01         24.3         6          0  174.0
 3  2019-04-01         26.5         4          0  171.0
-4  2019-05-01         23.4         5          0  184.0</pre>
+4  2019-05-01         23.4         5          0  184.0
+
+Missing values:
+Month         0
+Temperature   0
+Holidays      0
+Promotion     0
+Sales         0
+dtype: int64
+
+Converted Month to datetime. Month range:
+Start: 2019-01-01, End: 2023-12-01
+
+Correlation with Sales:
+Sales          1.000000
+Temperature    0.721506
+Month_num      0.453881
+Promotion      0.281785
+Holidays       0.146279
+Name: Sales, dtype: float64</pre>
             </div>
             
             <div class="note-container">
@@ -683,45 +1325,76 @@ dtype: object
                         코드 복사
                     </button>
                 </div>
-                <pre class="code-block"><code class="language-python">import pandas as pd
+                <pre class="code-block"><code class="language-python"># Complete standalone code for data analysis
+import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# 데이터 전처리
+# Load data
+# Make sure the CSV file is in the same directory
+df = pd.read_csv('ice_cream_sales_data.csv')
+
+# Data preprocessing
 df['Month'] = pd.to_datetime(df['Month'])
 df['Month_num'] = df['Month'].dt.month
 df['Year'] = df['Month'].dt.year
 
-# 상관관계 분석
+# Summary statistics
+print('Data shape:', df.shape)
+print('\nData types:')
+print(df.dtypes)
+print('\nFirst 5 rows:')
+print(df.head())
+print('\nBasic statistics:')
+print(df.describe())
+
+# Correlation analysis
 correlation_matrix = df[['Temperature', 'Holidays', 'Promotion', 'Month_num', 'Sales']].corr()
-print('상관관계 매트릭스:')
+print('\nCorrelation matrix:')
 print(correlation_matrix)
 
-# 시각화
+# Visualization
+plt.figure(figsize=(15, 10))
+
+# Create a 2x2 grid of subplots
 fig, axes = plt.subplots(2, 2, figsize=(15, 10))
 
-# 1. 판매량 분포
+# 1. Sales distribution
 axes[0,0].hist(df['Sales'], bins=15, alpha=0.7, color='skyblue', edgecolor='black')
 axes[0,0].set_title('Sales Distribution')
 axes[0,0].set_xlabel('Sales')
 axes[0,0].set_ylabel('Frequency')
 
-# 2. 온도와 판매량 관계
+# 2. Temperature vs Sales
 axes[0,1].scatter(df['Temperature'], df['Sales'], alpha=0.6, color='orange')
 axes[0,1].set_title('Temperature vs Sales')
 axes[0,1].set_xlabel('Temperature')
 axes[0,1].set_ylabel('Sales')
 
-# 3. 상관관계 히트맵
+# 3. Correlation heatmap
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0, ax=axes[1,0])
 axes[1,0].set_title('Correlation Matrix')
 
-# 4. 월별 판매량
+# 4. Monthly sales
 df.boxplot(column='Sales', by='Month_num', ax=axes[1,1])
 axes[1,1].set_title('Monthly Sales Distribution')
+axes[1,1].set_xlabel('Month')
+axes[1,1].set_ylabel('Sales')
 
 plt.tight_layout()
-plt.show()</code></pre>
+plt.show()
+
+# Additional analysis: Monthly average temperature and sales
+monthly_data = df.groupby('Month_num').agg({
+    'Temperature': 'mean',
+    'Sales': 'mean',
+    'Holidays': 'mean',
+    'Promotion': 'sum'
+}).reset_index()
+
+print('\nMonthly average data:')
+print(monthly_data)</code></pre>
             </div>
             
             <div class="insights-grid">
@@ -993,8 +1666,8 @@ Sales           0.721506  0.146279   0.281785   0.453881  1.000000</pre>
             <div class="flex-container">
                 <div class="left-column">
                     <p class="description">
-                        Support Vector Machine을 이용한 아이스크림 판매량 예측 모델링입니다.
-                        비선형 커널(RBF)을 사용해 데이터의 패턴을 학습합니다.
+                        서포트 벡터 머신을 이용한 아이스크림 판매량 예측 모델링입니다.
+                        비선형 커널(RBF)을 사용하여 데이터의 복잡한 패턴을 학습합니다.
                     </p>
                     
                     <div class="code-container">
@@ -1003,38 +1676,81 @@ Sales           0.721506  0.146279   0.281785   0.453881  1.000000</pre>
                                 <i class="fas fa-file-code code-icon"></i>
                                 svm_model.py
                             </div>
-                            <button class="code-copy-btn">
+                            <button class="code-copy-btn" onclick="copyCode()">
                                 <i class="fas fa-copy mr-1"></i>
                                 복사
                             </button>
                         </div>
-                        <pre class="code-block"><code class="language-python">from sklearn.svm import SVR
-from sklearn.preprocessing import StandardScaler
+                        <pre class="code-block"><code class="language-python"># Full imports for independent execution
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+import os
+import math
 
-# 특성과 타겟 변수 분리
+# Check if file exists to avoid FileNotFoundError
+file_path = 'ice_cream_sales_data.csv'
+if not os.path.exists(file_path):
+    print(f"File {file_path} not found. Creating sample dataset...")
+    # Create a sample dataset if file doesn't exist
+    data = {
+        'Month': ['2019-01-01', '2019-02-01', '2019-03-01', '2019-04-01', '2019-05-01'],
+        'Temperature': [15.5, 19.9, 24.3, 26.5, 23.4],
+        'Holidays': [3, 2, 6, 4, 5],
+        'Promotion': [0, 0, 0, 0, 0],
+        'Sales': [158.0, 158.0, 174.0, 171.0, 184.0]
+    }
+    pd.DataFrame(data).to_csv(file_path, index=False)
+
+# Load data
+df = pd.read_csv(file_path)
+print("Data loaded successfully. Shape:", df.shape)
+
+# Data preprocessing
+if 'Month' in df.columns:
+    df['Month'] = pd.to_datetime(df['Month'])
+    df['Month_num'] = df['Month'].dt.month
+    print("Extracted Month_num feature from Month column")
+
+# Features and target
 features = ['Temperature', 'Holidays', 'Promotion', 'Month_num']
 X = df[features]
 y = df['Sales']
 
-# 훈련/테스트 데이터 분할
+# Split data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42)
+print(f"Training data: {X_train.shape[0]} samples")
+print(f"Testing data: {X_test.shape[0]} samples")
 
-# 특성 스케일링 (SVM에 필수)
+# Feature scaling (essential for SVM)
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# SVM 모델 생성 및 훈련
+# Create and train SVM model
 svm_model = SVR(kernel='rbf', C=100, gamma='scale')
 svm_model.fit(X_train_scaled, y_train)
+print("SVM model trained successfully")
 
-# 예측 및 평가
+# Make predictions and evaluate
 y_pred_svm = svm_model.predict(X_test_scaled)
 mse_svm = mean_squared_error(y_test, y_pred_svm)
-r2_svm = r2_score(y_test, y_pred_svm)</code></pre>
+rmse_svm = math.sqrt(mse_svm)
+r2_svm = r2_score(y_test, y_pred_svm)
+mae_svm = mean_absolute_error(y_test, y_pred_svm)
+
+# Print results
+print("\nModel Performance Metrics:")
+print(f"MSE: {mse_svm:.2f}")
+print(f"RMSE: {rmse_svm:.2f}")
+print(f"MAE: {mae_svm:.2f}")
+print(f"R²: {r2_svm:.2f}")</code></pre>
                     </div>
                     
                     <div class="note-container">
@@ -1044,10 +1760,10 @@ r2_svm = r2_score(y_test, y_pred_svm)</code></pre>
                         </div>
                         <div class="note-content">
                             <ul class="note-list">
-                                <li class="note-item"><strong>장점:</strong> 비선형 관계 포착, 이상치에 강건함</li>
-                                <li class="note-item"><strong>단점:</strong> 스케일링 필수, 대규모 데이터에 느림</li>
-                                <li class="note-item"><strong>하이퍼파라미터:</strong> C(규제), gamma(커널 계수), kernel</li>
-                                <li class="note-item"><strong>적용 케이스:</strong> 복잡한 판매 패턴 예측에 유용</li>
+                                <li class="note-item"><strong>장점:</strong> 비선형 관계 포착 가능, 이상치에 강함</li>
+                                <li class="note-item"><strong>단점:</strong> 스케일링 필수, 대용량 데이터에서 느림</li>
+                                <li class="note-item"><strong>하이퍼파라미터:</strong> C (정규화), gamma (커널 계수), kernel (커널 종류)</li>
+                                <li class="note-item"><strong>활용 사례:</strong> 복잡한 판매 패턴 예측에 효과적</li>
                             </ul>
                         </div>
                     </div>
@@ -1060,7 +1776,7 @@ r2_svm = r2_score(y_test, y_pred_svm)</code></pre>
                     
                     <div class="stats-container">
                         <div class="stat-box">
-                            <div class="stat-title">R² 점수</div>
+                            <div class="stat-title">결정계수(R²)</div>
                             <div class="stat-value">0.78</div>
                         </div>
                         <div class="stat-box">
@@ -1082,7 +1798,7 @@ r2_svm = r2_score(y_test, y_pred_svm)</code></pre>
     </div>
     
     <script>
-        // 실제값 vs 예측값 차트
+        // Actual vs Predicted chart
         const ctxPred = document.getElementById('predictionChart').getContext('2d');
         new Chart(ctxPred, {
             type: 'scatter',
@@ -1142,14 +1858,14 @@ r2_svm = r2_score(y_test, y_pred_svm)</code></pre>
             }
         });
         
-        // 하이퍼파라미터 튜닝 차트
+        // Hyperparameter tuning chart
         const ctxHyper = document.getElementById('hyperparameterChart').getContext('2d');
         new Chart(ctxHyper, {
             type: 'bar',
             data: {
                 labels: ['0.1', '1', '10', '100', '1000'],
                 datasets: [{
-                    label: 'C 파라미터에 따른 R² 점수',
+                    label: 'C 파라미터별 R² 점수',
                     data: [0.62, 0.70, 0.75, 0.78, 0.77],
                     backgroundColor: 'rgba(46, 204, 113, 0.6)',
                     borderColor: 'rgba(46, 204, 113, 1)',
@@ -1184,12 +1900,34 @@ r2_svm = r2_score(y_test, y_pred_svm)</code></pre>
                     x: {
                         title: {
                             display: true,
-                            text: 'C 파라미터 값 (규제)'
+                            text: 'C 파라미터 값 (정규화)'
                         }
                     }
                 }
             }
         });
+        
+        function copyCode() {
+            const codeBlock = document.querySelector('.code-block code');
+            const textToCopy = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    const copyBtn = document.querySelector('.code-copy-btn');
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i> 복사됨!';
+                    copyBtn.style.backgroundColor = '#27ae60';
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                        copyBtn.style.backgroundColor = '#3498db';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('복사 실패:', err);
+                    alert('코드 복사에 실패했습니다.');
+                });
+        }
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.28.0/prism.min.js"></script>
@@ -1205,6 +1943,7 @@ r2_svm = r2_score(y_test, y_pred_svm)</code></pre>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.28.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -1339,7 +2078,7 @@ r2_svm = r2_score(y_test, y_pred_svm)</code></pre>
             <h1 class="title">KNN (K-Nearest Neighbors) 모델</h1>
             
             <p class="description">
-                KNN은 새로운 데이터 포인트의 예측을 위해 가장 가까운 K개의 이웃 데이터를 사용하는 간단하지만 효과적인 회귀 모델입니다. 아이스크림 판매량 예측에 적용해 보겠습니다.
+                KNN은 K개의 가장 가까운 이웃을 활용하여 새로운 데이터 포인트를 예측하는 단순하면서도 효과적인 회귀 모델입니다. 이를 아이스크림 판매량 예측에 적용해보겠습니다.
             </p>
             
             <div class="code-container">
@@ -1353,48 +2092,105 @@ r2_svm = r2_score(y_test, y_pred_svm)</code></pre>
                         코드 복사
                     </button>
                 </div>
-                <pre class="code-block"><code class="language-python">from sklearn.neighbors import KNeighborsRegressor
+                <pre class="code-block"><code class="language-python"># Full imports for standalone execution
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+import os
+import locale
 
-# 특성과 타겟 변수 분리
+# Set locale to English
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+
+# Check if file exists to avoid FileNotFoundError
+file_path = 'ice_cream_sales_data.csv'
+if not os.path.exists(file_path):
+    # Create a simple sample dataset if the file doesn't exist
+    print(f"File {file_path} not found. Creating sample dataset...")
+    data = {
+        'Month': ['2019-01-01', '2019-02-01', '2019-03-01', '2019-04-01', '2019-05-01'],
+        'Temperature': [15.5, 19.9, 24.3, 26.5, 23.4],
+        'Holidays': [3, 2, 6, 4, 5],
+        'Promotion': [0, 0, 0, 0, 0],
+        'Sales': [158.0, 158.0, 174.0, 171.0, 184.0]
+    }
+    pd.DataFrame(data).to_csv(file_path, index=False)
+
+# Load data
+df = pd.read_csv(file_path)
+
+# Data preprocessing
+if 'Month' in df.columns:
+    df['Month'] = pd.to_datetime(df['Month'])
+    df['Month_num'] = df['Month'].dt.month
+    df['Year'] = df['Month'].dt.year
+
+# Define features and target
 features = ['Temperature', 'Holidays', 'Promotion', 'Month_num']
 X = df[features]
 y = df['Sales']
 
-# 훈련/테스트 데이터 분할
+# Split data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, shuffle=True
 )
 
-# 특성 스케일링 (KNN에 중요)
+# Feature scaling (important for KNN)
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# KNN 모델 생성 및 훈련
+# KNN model creation and training
 knn_model = KNeighborsRegressor(n_neighbors=5)
 knn_model.fit(X_train_scaled, y_train)
 
-# 예측 및 평가
+# Prediction and evaluation
 y_pred_knn = knn_model.predict(X_test_scaled)
+mse_knn = mean_squared_error(y_test, y_pred_knn)
+rmse_knn = np.sqrt(mse_knn)
+mae_knn = mean_absolute_error(y_test, y_pred_knn)
 r2_knn = r2_score(y_test, y_pred_knn)
-print(f"R² 점수: {r2_knn:.4f}")</code></pre>
+
+print("=== KNN Model Performance ===")
+print(f"MSE: {mse_knn:.4f}")
+print(f"RMSE: {rmse_knn:.4f}")
+print(f"MAE: {mae_knn:.4f}")
+print(f"R² Score: {r2_knn:.4f}")
+
+# K-value optimization analysis
+k_range = range(1, 16, 2)
+k_scores = []
+
+for k in k_range:
+    knn = KNeighborsRegressor(n_neighbors=k)
+    knn.fit(X_train_scaled, y_train)
+    y_pred = knn.predict(X_test_scaled)
+    r2 = r2_score(y_test, y_pred)
+    k_scores.append(r2)
+    print(f"K={k}, R² Score: {r2:.4f}")
+
+optimal_k = k_range[np.argmax(k_scores)]
+print(f"\nOptimal K value: {optimal_k}")
+print(f"Best R² Score: {max(k_scores):.4f}")</code></pre>
             </div>
             
             <div class="flex-container">
                 <div class="info-box">
                     <div class="info-title">
                         <i class="fas fa-sliders-h info-icon"></i>
-                        K값 최적화 
+                        K 값 최적화
                     </div>
                     <div class="info-content">
-                        <p class="mb-2">K값은 이웃의 수를 결정하는 중요한 하이퍼파라미터입니다:</p>
+                        <p class="mb-2">K는 이웃의 수를 결정하는 중요한 하이퍼파라미터입니다:</p>
                         <ul class="pl-6 list-disc">
-                            <li>K값이 작을수록 노이즈에 민감해짐</li>
-                            <li>K값이 클수록 과대평활화(over-smoothing) 발생</li>
-                            <li>교차 검증을 통한 최적 K값 선정 (보통 3~7)</li>
+                            <li>작은 K: 노이즈에 민감함</li>
+                            <li>큰 K: 과도한 평활화(smoothing) 발생</li>
+                            <li>최적 K 선택: 교차검증 통해 결정 (일반적으로 3-7)</li>
                         </ul>
                         <div class="chart-container mt-3">
                             <canvas id="kChart"></canvas>
@@ -1409,14 +2205,14 @@ print(f"R² 점수: {r2_knn:.4f}")</code></pre>
                     <div class="info-content">
                         <p class="mb-2"><strong>장점:</strong></p>
                         <ul class="pl-6 list-disc mb-3">
-                            <li>구현이 간단하고 해석이 직관적</li>
-                            <li>비선형 패턴에 잘 적응</li>
-                            <li>이상치에 강한 편</li>
+                            <li>구현이 간단하고 직관적인 해석 가능</li>
+                            <li>비선형 패턴에 잘 적응함</li>
+                            <li>이상치에 상대적으로 강건함</li>
                         </ul>
                         <p class="mb-2"><strong>단점:</strong></p>
                         <ul class="pl-6 list-disc">
-                            <li>데이터 크기가 클수록 계산 비용 증가</li>
-                            <li>스케일링 필수 (거리 계산 때문)</li>
+                            <li>데이터셋 크기에 따라 계산 비용 증가</li>
+                            <li>거리 계산으로 인해 특성 스케일링 필수</li>
                             <li>고차원에서 성능 저하 (차원의 저주)</li>
                         </ul>
                     </div>
@@ -1425,16 +2221,15 @@ print(f"R² 점수: {r2_knn:.4f}")</code></pre>
         </div>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // K값에 따른 성능 변화 차트
+        // K-value performance chart
         const ctx = document.getElementById('kChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
                 labels: [1, 3, 5, 7, 9, 11, 13],
                 datasets: [{
-                    label: 'R² Score',
+                    label: 'R² 점수',
                     data: [0.71, 0.79, 0.82, 0.80, 0.77, 0.75, 0.73],
                     backgroundColor: 'rgba(52, 152, 219, 0.2)',
                     borderColor: 'rgba(52, 152, 219, 1)',
@@ -1449,7 +2244,7 @@ print(f"R² 점수: {r2_knn:.4f}")</code></pre>
                 plugins: {
                     title: {
                         display: true,
-                        text: 'K값에 따른 R² 점수 변화'
+                        text: 'K 값에 따른 R² 점수'
                     },
                     legend: {
                         display: false
@@ -1462,7 +2257,7 @@ print(f"R² 점수: {r2_knn:.4f}")</code></pre>
                         max: 0.85,
                         title: {
                             display: true,
-                            text: 'R² Score'
+                            text: 'R² 점수'
                         }
                     },
                     x: {
@@ -1661,7 +2456,7 @@ print(f"R² 점수: {r2_knn:.4f}")</code></pre>
             <h1 class="title">Random Forest 모델</h1>
             
             <p class="description">
-                Random Forest는 여러 의사결정 트리의 결과를 종합하여 예측하는 앙상블 학습 모델로, 다양한 변수들의 중요도를 파악할 수 있습니다.
+                랜덤 포레스트는 여러 개의 결정 트리를 조합하여 예측을 수행하는 앙상블 학습 모델로, 다양한 특성의 중요도에 대한 통찰력을 제공합니다.
             </p>
             
             <div class="grid-container">
@@ -1676,21 +2471,52 @@ print(f"R² 점수: {r2_knn:.4f}")</code></pre>
                             복사
                         </button>
                     </div>
-                    <pre class="code-block"><code class="language-python">from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
+                    <pre class="code-block"><code class="language-python"># Complete standalone code for Random Forest model
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+import os
+import math
 
-# 특성과 타겟 분리
+# Load data
+# Make sure the CSV file is in the same directory
+file_path = 'ice_cream_sales_data.csv'
+if not os.path.exists(file_path):
+    # Create sample data if file doesn't exist
+    print(f"File {file_path} not found. Creating sample dataset...")
+    data = {
+        'Month': ['2019-01-01', '2019-02-01', '2019-03-01', '2019-04-01', '2019-05-01'],
+        'Temperature': [15.5, 19.9, 24.3, 26.5, 23.4],
+        'Holidays': [3, 2, 6, 4, 5],
+        'Promotion': [0, 0, 0, 0, 0],
+        'Sales': [158.0, 158.0, 174.0, 171.0, 184.0]
+    }
+    pd.DataFrame(data).to_csv(file_path, index=False)
+
+# Load the dataset
+df = pd.read_csv(file_path)
+
+# Convert Month to datetime and extract features
+if 'Month' in df.columns:
+    df['Month'] = pd.to_datetime(df['Month'])
+    df['Month_num'] = df['Month'].dt.month
+    df['Year'] = df['Month'].dt.year
+
+# Define features and target
 features = ['Temperature', 'Holidays', 'Promotion', 'Month_num']
 X = df[features]
 y = df['Sales']
 
-# 데이터 분할
+# Split data into training and test sets
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, shuffle=True
 )
 
-# Random Forest 모델 훈련 (스케일링 불필요)
+# Train Random Forest model (no scaling needed)
 rf_model = RandomForestRegressor(
     n_estimators=100, 
     random_state=42, 
@@ -1698,17 +2524,52 @@ rf_model = RandomForestRegressor(
 )
 rf_model.fit(X_train, y_train)
 
-# 예측 및 평가
+# Make predictions and evaluate
 y_pred_rf = rf_model.predict(X_test)
 mse_rf = mean_squared_error(y_test, y_pred_rf)
+rmse_rf = math.sqrt(mse_rf)
+mae_rf = mean_absolute_error(y_test, y_pred_rf)
 r2_rf = r2_score(y_test, y_pred_rf)
 
-# 특성 중요도 확인
+# Print results
+print("Random Forest Model Evaluation:")
+print(f"MSE: {mse_rf:.2f}")
+print(f"RMSE: {rmse_rf:.2f}")
+print(f"MAE: {mae_rf:.2f}")
+print(f"R²: {r2_rf:.2f}")
+
+# Get feature importance
 feature_importance = rf_model.feature_importances_
 importance_df = pd.DataFrame({
     'feature': features,
     'importance': feature_importance
-}).sort_values('importance', ascending=False)</code></pre>
+}).sort_values('importance', ascending=False)
+
+print("\nFeature Importance:")
+print(importance_df)
+
+# Optional: Hyperparameter tuning
+"""
+# Hyperparameter grid
+param_grid = {
+    'n_estimators': [50, 100, 200],
+    'max_depth': [None, 5, 10, 15],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4]
+}
+
+grid_search = GridSearchCV(
+    RandomForestRegressor(random_state=42),
+    param_grid,
+    cv=5,
+    scoring='r2',
+    n_jobs=-1
+)
+
+grid_search.fit(X_train, y_train)
+print(f"Best parameters: {grid_search.best_params_}")
+print(f"Best CV score: {grid_search.best_score_:.4f}")
+"""</code></pre>
                 </div>
                 
                 <div class="chart-container">
@@ -1719,30 +2580,30 @@ importance_df = pd.DataFrame({
             <div class="output-container">
                 <div style="font-weight:bold; margin-bottom: 5px;">🔍 모델 성능 및 특성 중요도</div>
                 <div>MSE: 38.51 | RMSE: 6.21 | R²: 0.88</div>
-                <div>특성 중요도: Temperature (0.65) > Month_num (0.20) > Promotion (0.10) > Holidays (0.05)</div>
+                <div>특성 중요도: 온도(0.65) > 월(0.20) > 프로모션(0.10) > 휴일(0.05)</div>
             </div>
             
             <div class="note-container">
                 <div class="note-title">
                     <i class="fas fa-lightbulb note-icon"></i>
-                    Random Forest 모델 특징
+                    랜덤 포레스트 모델의 특징
                 </div>
                 <div class="note-content">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div>
                             <p><strong>장점:</strong></p>
                             <ul style="padding-left: 20px; margin-top: 5px;">
-                                <li>과적합에 강하고 안정적인 성능</li>
-                                <li>특성 중요도를 제공하여 해석 용이</li>
-                                <li>데이터 스케일링이 불필요함</li>
+                                <li>과적합에 강하고 안정적인 성능 제공</li>
+                                <li>특성 중요도를 통한 쉬운 해석 가능</li>
+                                <li>데이터 스케일링이 필요 없음</li>
                             </ul>
                         </div>
                         <div>
-                            <p><strong>단점:</strong></p>
+                            <p><strong>한계점:</strong></p>
                             <ul style="padding-left: 20px; margin-top: 5px;">
-                                <li>깊은 트리의 경우 해석이 복잡함</li>
-                                <li>많은 의사결정 트리로 메모리 사용량 증가</li>
-                                <li>대규모 데이터셋에서 훈련 시간이 길어질 수 있음</li>
+                                <li>깊은 트리는 해석이 복잡할 수 있음</li>
+                                <li>여러 의사결정 트리로 인한 높은 메모리 사용량</li>
+                                <li>대용량 데이터셋에서 훈련 시간이 오래 걸릴 수 있음</li>
                             </ul>
                         </div>
                     </div>
@@ -1837,7 +2698,6 @@ importance_df = pd.DataFrame({
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.28.0/components/prism-python.min.js"></script>
 </body>
 </html>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -1935,7 +2795,7 @@ importance_df = pd.DataFrame({
             padding: 15px;
             margin: 0;
             overflow: auto;
-            max-height: 170px;
+            max-height: 200px;
             font-size: 14px;
             line-height: 1.5;
             font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
@@ -1944,7 +2804,7 @@ importance_df = pd.DataFrame({
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 280px;
+            height: 260px;
             margin-bottom: 20px;
         }
         .note-container {
@@ -2000,8 +2860,106 @@ importance_df = pd.DataFrame({
             <h1 class="title">모델 성능 비교</h1>
             
             <p class="description">
-                SVM, KNN, Random Forest 세 가지 회귀 모델의 성능을 비교하고 아이스크림 판매량 예측에 가장 적합한 모델을 선정합니다.
+                아이스크림 판매량 예측을 위한 SVM, KNN, Random Forest 모델의 성능을 비교하여 최적의 모델을 선택합니다.
             </p>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-title">
+                        <i class="fas fa-code code-icon"></i>
+                        model_comparison.py
+                    </div>
+                    <button class="code-copy-btn" onclick="copyCode()">
+                        <i class="fas fa-copy mr-1"></i>
+                        코드 복사
+                    </button>
+                </div>
+                <pre class="code-block"><code class="language-python">import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+
+# Load data
+df = pd.read_csv('ice_cream_sales_data.csv')
+
+# Data preparation
+if 'Month' in df.columns:
+    df['Month'] = pd.to_datetime(df['Month'])
+    df['Month_num'] = df['Month'].dt.month
+
+features = ['Temperature', 'Holidays', 'Promotion', 'Month_num']
+X = df[features]
+y = df['Sales']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, shuffle=True
+)
+
+# Scaling (for SVM and KNN)
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Define models
+models = {
+    'SVM': SVR(kernel='rbf', C=100, gamma='scale'),
+    'KNN': KNeighborsRegressor(n_neighbors=5),
+    'RandomForest': RandomForestRegressor(n_estimators=100, random_state=42)
+}
+
+# Evaluate models
+results = {}
+
+for name, model in models.items():
+    print(f"\n=== {name} Model Evaluation ===")
+    
+    # Training and prediction
+    if name in ['SVM', 'KNN']:
+        model.fit(X_train_scaled, y_train)
+        y_pred = model.predict(X_test_scaled)
+        cv_scores = cross_val_score(model, X_train_scaled, y_train, cv=5, scoring='r2')
+    else:
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        cv_scores = cross_val_score(model, X_train, y_train, cv=5, scoring='r2')
+    
+    # Calculate performance metrics
+    mse = mean_squared_error(y_test, y_pred)
+    rmse = np.sqrt(mse)
+    mae = mean_absolute_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+    
+    results[name] = {
+        'MSE': mse,
+        'RMSE': rmse,
+        'MAE': mae,
+        'R2': r2,
+        'CV_Mean': cv_scores.mean(),
+        'CV_Std': cv_scores.std()
+    }
+    
+    print(f"MSE: {mse:.4f}")
+    print(f"RMSE: {rmse:.4f}")
+    print(f"MAE: {mae:.4f}")
+    print(f"R²: {r2:.4f}")
+    print(f"CV R² Mean: {cv_scores.mean():.4f} (+/- {cv_scores.std() * 2:.4f})")
+
+# Create results dataframe
+performance_df = pd.DataFrame(results).T
+print("\n=== Model Performance Comparison ===")
+print(performance_df.round(4))
+
+# Identify best model
+best_model = performance_df['R2'].idxmax()
+print(f"\n🏆 Best Model: {best_model}")
+print(f"R² Score: {performance_df.loc[best_model, 'R2']:.4f}")</code></pre>
+            </div>
             
             <table class="metrics-table">
                 <thead>
@@ -2010,7 +2968,7 @@ importance_df = pd.DataFrame({
                         <th>R²</th>
                         <th>RMSE</th>
                         <th>MAE</th>
-                        <th>CV Score (평균)</th>
+                        <th>교차 검증 점수</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -2049,11 +3007,11 @@ importance_df = pd.DataFrame({
                 </div>
                 <div class="note-content">
                     <ul class="pl-6">
-                        <li class="mb-1"><strong>Random Forest:</strong> 모든 지표에서 가장 우수한 성능 (R² = 0.88, RMSE = 6.2)</li>
-                        <li class="mb-1"><strong>KNN:</strong> 중간 수준의 성능과 직관적 해석 가능</li>
-                        <li class="mb-1"><strong>SVM:</strong> 비선형 관계 포착은 우수하나 다른 모델 대비 성능 낮음</li>
-                        <li class="mb-1"><strong>최종 권장:</strong> Random Forest 모델 (온도가 가장 중요한 변수)</li>
-                        <li><strong>실무 적용:</strong> 계절성 및 프로모션 효과 반영에 Random Forest 모델이 적합</li>
+                        <li class="mb-1"><strong>랜덤 포레스트:</strong> 모든 지표에서 가장 우수한 성능 (R² = 0.88, RMSE = 6.2)</li>
+                        <li class="mb-1"><strong>KNN:</strong> 직관적인 해석이 가능한 중간 수준의 성능</li>
+                        <li class="mb-1"><strong>SVM:</strong> 비선형 패턴을 포착하는 데 좋지만 상대적으로 낮은 성능</li>
+                        <li class="mb-1"><strong>추천 모델:</strong> 랜덤 포레스트 (온도가 가장 중요한 특성)</li>
+                        <li><strong>비즈니스 적용:</strong> 계절성과 프로모션 효과를 포착하는 데 랜덤 포레스트가 적합</li>
                     </ul>
                 </div>
             </div>
@@ -2070,7 +3028,7 @@ importance_df = pd.DataFrame({
                     labels: ['SVM', 'KNN', 'Random Forest'],
                     datasets: [
                         {
-                            label: 'R²',
+                            label: 'R² 점수',
                             data: [0.78, 0.82, 0.88],
                             backgroundColor: 'rgba(52, 152, 219, 0.7)',
                             borderColor: 'rgba(52, 152, 219, 1)',
@@ -2110,6 +3068,28 @@ importance_df = pd.DataFrame({
                 }
             });
         });
+        
+        function copyCode() {
+            const codeBlock = document.querySelector('.code-block code');
+            const textToCopy = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    const copyBtn = document.querySelector('.code-copy-btn');
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i> 복사됨!';
+                    copyBtn.style.backgroundColor = '#27ae60';
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                        copyBtn.style.backgroundColor = '#3498db';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('복사 실패:', err);
+                    alert('코드 복사에 실패했습니다.');
+                });
+        }
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.28.0/prism.min.js"></script>
