@@ -663,10 +663,20 @@
                                 <i class="fas fa-chart-bar code-icon"></i>
                                 eda_preprocessing.py
                             </div>
-                            <button class="code-copy-btn" onclick="copyCode()">
-                                <i class="fas fa-copy mr-1"></i>
-                                Copy Code
-                            </button>
+                       <div style="display: flex; gap: 10px;">
+                    <button class="code-copy-btn" onclick="copyCode()">
+                        <i class="fas fa-copy mr-1"></i>
+                        코드 복사
+                    </button>
+                    <button class="code-copy-btn" onclick="downloadCSV()" style="background-color: #27ae60;">
+                        <i class="fas fa-download mr-1"></i>
+                        CSV 다운로드
+                    </button>
+                    </div>
+                function downloadCSV() {
+                    // Google Drive 파일 링크로 이동
+                    window.open('https://drive.google.com/file/d/1LqMXtZAVzwJzsnFD5UNjQgZJSSl-q_c0/view', '_blank');
+                        }
                         </div>
                         <pre class="code-block"><code class="language-python"># Full imports for independent execution
 import pandas as pd
